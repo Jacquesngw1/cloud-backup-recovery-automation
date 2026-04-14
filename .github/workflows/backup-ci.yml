@@ -1,0 +1,19 @@
+name: Backup CI
+on: [push]
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+      - name: Create sample data
+        run: |
+          mkdir -p data
+          echo "sample file" > data/sample.txt
+      - name: Run Backup Script
+        run: python backup.py
+      - name: Run Tests
+        run: python -m pytest test_backup.py test_restore.py -v
